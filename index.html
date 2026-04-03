@@ -30,12 +30,12 @@
   <div class="wrap">
     <section class="card hero">
       <div>
-        <div class="badge">Live backend connected version</div>
+        <div class="badge">Live render backend connected version</div>
         <h1>BetJams Pro Suite</h1>
-        <div class="sub">Live arb dashboard that pulls data from your local FastAPI backend. Replace your old <strong>index.html</strong> with this file and keep your backend running.</div>
+        <div class="sub">Live arb dashboard pulling from your Render backend. Replace your old <strong>index.html</strong> with this file, commit it to GitHub, and your GitHub Pages site will use the live BetJams API.</div>
         <div class="hero-actions">
           <button class="btn btn-primary" id="refreshBtn">Refresh Now</button>
-          <button class="btn btn-secondary" id="backendBtn">Backend: http://127.0.0.1:8000/arbs</button>
+          <button class="btn btn-secondary" id="backendBtn">Backend: https://betjams.onrender.com/arbs</button>
         </div>
         <div class="status" id="statusBox">Waiting for first live load...</div>
       </div>
@@ -59,7 +59,7 @@
     <section class="main">
       <section class="card">
         <div class="section-head">
-          <div><h2 id="boardTitle">Live Arb Board</h2><p id="boardSub">Top to bottom ranked live arbs from your backend.</p></div>
+          <div><h2 id="boardTitle">Live Arb Board</h2><p id="boardSub">Top to bottom ranked live arbs from your Render backend.</p></div>
           <button class="btn btn-secondary" style="padding:10px 14px" id="exportBtn">Export CSV</button>
         </div>
         <div class="table-wrap">
@@ -103,9 +103,9 @@
 
         <section class="card pad">
           <div class="section-head" style="padding:0 0 8px;border:none"><div><h3>Notes</h3></div></div>
-          <div class="info"><div style="font-weight:700">Backend required</div><div class="footer-note">Keep uvicorn running before opening this page.</div></div>
-          <div class="info" style="margin-top:12px"><div style="font-weight:700">Local file caveat</div><div class="footer-note">If the page says “Failed to fetch”, your backend may need CORS enabled or may not be running.</div></div>
-          <div class="info" style="margin-top:12px"><div style="font-weight:700">Next step</div><div class="footer-note">Once this works, we can wire in your full SportsGameOdds arb logic.</div></div>
+          <div class="info"><div style="font-weight:700">Backend required</div><div class="footer-note">This page now points to your public Render backend, not localhost.</div></div>
+          <div class="info" style="margin-top:12px"><div style="font-weight:700">Render free tier</div><div class="footer-note">The first request can be slow if the instance has spun down.</div></div>
+          <div class="info" style="margin-top:12px"><div style="font-weight:700">Next step</div><div class="footer-note">Once this is live on GitHub Pages, the next upgrade should be a Middles tab and cleaner player names.</div></div>
         </section>
       </aside>
     </section>
@@ -153,17 +153,17 @@
     }
     async function loadData(){
       try{
-        setStatus("Loading live data from backend...");
+        setStatus("Loading live data from Render backend...");
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error("Backend returned " + res.status);
         const data = await res.json();
         rows = Array.isArray(data) ? data.map(normalizeRow) : [];
         if (rows.length && !rows.some(r => r.id === selectedId)) selectedId = rows[0].id;
-        setStatus("Live data loaded successfully. Auto refresh every 30 seconds.");
+        setStatus(rows.length ? "Live data loaded successfully. Auto refresh every 30 seconds." : "Backend is live. No qualifying arbs found right now.");
         render();
       }catch(err){
         rows = [];
-        setStatus("Failed to fetch live data. Make sure backend is running on http://127.0.0.1:8000 and CORS is enabled.");
+        setStatus("Failed to fetch live data from Render. Try Refresh Now after a few seconds if the free instance is waking up.");
         render();
       }
     }
@@ -205,7 +205,7 @@
     }
     function renderBoard(list){
       el("boardTitle").textContent = activeTab === "Arb Board" ? "Live Arb Board" : activeTab + " Mockup";
-      el("boardSub").textContent = activeTab === "Arb Board" ? "Top to bottom ranked live arbs from your backend." : "This tab is still visual-only for now.";
+      el("boardSub").textContent = activeTab === "Arb Board" ? "Top to bottom ranked live arbs from your Render backend." : "This tab is still visual-only for now.";
       const body = el("boardBody"); body.innerHTML = "";
       list.forEach((row, idx) => {
         const tr = document.createElement("tr");
@@ -222,6 +222,8 @@
         el("selectedMeta").textContent = "";
         el("selectedStart").textContent = "";
         el("selectedEdge").textContent = "0.00%";
+        el("overBook").textContent = "-";
+        el("underBook").textContent = "-";
         return;
       }
       const stake = Number(el("stakeInput").value || 0);
@@ -265,4 +267,3 @@
   </script>
 </body>
 </html>
-
