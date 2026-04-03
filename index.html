@@ -113,7 +113,7 @@
 
   <script>
     const tabs = ["Arb Board","Middle Finder","Parlay Builder","Live Tracker"];
-    const bookOptions = ["FanDuel","DraftKings","BetMGM","Caesars"];
+    const bookOptions = ["Fanduel","Draftkings","Betmgm","Caesars"];
     const API_URL = "https://betjams.onrender.com/arbs";
     let selectedBooks = [...bookOptions];
     let activeTab = "Arb Board";
@@ -151,6 +151,7 @@
         arb_pct: Number(item.arb_pct ?? item.arbPct ?? 0)
       };
     }
+    function selectedBooksLower(){ return selectedBooks.map(b => b.toLowerCase()); }
     async function loadData(){
       try{
         setStatus("Loading live data from Render backend...");
@@ -190,8 +191,12 @@
     function filteredRows(){
       const q = el("searchInput").value.trim().toLowerCase();
       const minArb = Number(el("minArbInput").value || 0);
+      const booksLower = selectedBooksLower();
       return rows
-        .filter(r => selectedBooks.includes(r.over_book) || selectedBooks.includes(r.under_book))
+        .filter(r =>
+          booksLower.includes((r.over_book || "").toLowerCase()) ||
+          booksLower.includes((r.under_book || "").toLowerCase())
+        )
         .filter(r => r.arb_pct >= minArb)
         .filter(r => !q || [r.player, r.stat, r.matchup].join(" ").toLowerCase().includes(q))
         .sort((a,b) => b.arb_pct - a.arb_pct);
