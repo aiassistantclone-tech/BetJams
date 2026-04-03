@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BetJams Pro Suite</title>
+  <style>
+    :root{--panel:rgba(255,255,255,.06);--panel2:rgba(255,255,255,.04);--line:rgba(255,255,255,.10);--text:#e8eefc;--muted:#95a3bf;--accent:#66d9ff;--green-bg:rgba(99,230,190,.12);--shadow:0 20px 60px rgba(0,0,0,.35)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top,#16314f 0%,#0b1530 34%,#050913 100%);min-height:100vh}
+    .wrap{max-width:1320px;margin:0 auto;padding:24px}.card{background:var(--panel);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(16px)}
+    .hero{display:grid;grid-template-columns:1.6fr .9fr;gap:24px;padding:32px}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(102,217,255,.22);background:rgba(102,217,255,.10);color:#bfefff;padding:8px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:700}
+    h1{font-size:52px;line-height:1.02;margin:18px 0 14px}.sub{max-width:760px;color:#c9d5ec;line-height:1.6}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+    .btn{appearance:none;border:none;cursor:pointer;border-radius:18px;padding:14px 18px;font-weight:700;font-size:14px}.btn-primary{background:var(--accent);color:#07111f}.btn-secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
+    .metrics{display:grid;gap:16px}.metric{border:1px solid var(--line);background:var(--panel2);border-radius:24px;padding:20px}.metric-label,.field-label,.smallcaps{color:var(--muted);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}.metric-value{font-size:34px;font-weight:800;margin-top:10px}.metric-sub{color:#bcc7db;font-size:14px;margin-top:10px}
+    .tabs{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}.tab{border-radius:18px;padding:12px 16px;font-size:14px;font-weight:700;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#dbe6f8;cursor:pointer}.tab.active{background:white;color:#07111f}
+    .filters{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px}.field{display:block}.field-label{margin:0 0 8px 2px} input,.fake-select{width:100%;border-radius:18px;border:1px solid var(--line);background:rgba(3,8,19,.55);color:var(--text);padding:12px 14px;outline:none;font-size:14px}
+    .book-pills{display:flex;flex-wrap:wrap;gap:8px}.pill{padding:10px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid var(--line);background:rgba(3,8,19,.55);color:#d6deee;cursor:pointer}.pill.active{background:var(--accent);color:#08111b;border-color:transparent}
+    .main{display:grid;grid-template-columns:1.22fr .95fr;gap:24px;margin-top:24px}.section-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}.section-head h2,.section-head h3{margin:0;font-size:19px}.section-head p{margin:6px 0 0;color:#b9c4d7;font-size:14px}
+    .table-wrap{max-height:760px;overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:16px 14px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}th{position:sticky;top:0;background:rgba(5,10,20,.92);backdrop-filter:blur(10px);color:#aebbd3}tr{cursor:pointer}tr:hover{background:rgba(255,255,255,.05)}tr.active{background:rgba(255,255,255,.09)}
+    .muted{color:var(--muted)}.tiny{font-size:12px}.edge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--green-bg);color:#bbffe8;font-size:12px;font-weight:800}
+    .status{margin-top:14px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(3,8,19,.45);color:#cdd8ef;font-size:14px}
+    .side{display:grid;gap:24px}.pad{padding:20px}.selected-top{display:flex;justify-content:space-between;gap:16px}.selected-edge{background:var(--green-bg);padding:14px 16px;border-radius:18px;text-align:right;min-width:115px}.selected-edge .big{font-size:30px;font-weight:800;color:#bbffe8}
+    .legs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.leg,.info,.calc{border:1px solid var(--line);background:rgba(3,8,19,.55);border-radius:22px;padding:16px}.leg-odds,.calc-value{font-size:28px;font-weight:800;margin-top:10px}.open-link{margin-top:14px;width:100%}
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.calc.highlight{background:var(--green-bg);border-color:rgba(99,230,190,.28)}.calc.highlight .calc-value{color:#bbffe8}
+    .footer-note{margin-top:14px;color:#bfcae0;font-size:14px}
+    @media (max-width:1100px){.hero,.main,.filters{grid-template-columns:1fr}h1{font-size:42px}}@media (max-width:700px){.wrap{padding:14px}.hero{padding:22px}h1{font-size:34px}.legs,.calc-grid{grid-template-columns:1fr}th,td{padding:12px 10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card hero">
+      <div>
+        <div class="badge">Live render backend connected version</div>
+        <h1>BetJams Pro Suite</h1>
+        <div class="sub">Live arb dashboard pulling from your Render backend. Replace your old <strong>index.html</strong> with this file, commit it to GitHub, and your GitHub Pages site will use the live BetJams API.</div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="refreshBtn">Refresh Now</button>
+          <button class="btn btn-secondary" id="backendBtn">Backend: https://betjams.onrender.com/arbs</button>
+        </div>
+        <div class="status" id="statusBox">Waiting for first live load...</div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Arbs On Board</div><div class="metric-value" id="metricCount">0</div><div class="metric-sub">Filtered opportunities</div></div>
+        <div class="metric"><div class="metric-label">Top Arb</div><div class="metric-value" id="metricTop">0.00%</div><div class="metric-sub" id="metricTopSub">No active result</div></div>
+        <div class="metric"><div class="metric-label">Average Edge</div><div class="metric-value" id="metricAvg">0.00%</div><div class="metric-sub">Across visible rows</div></div>
+      </div>
+    </section>
+
+    <div class="tabs" id="tabs"></div>
+
+    <section class="card filters">
+      <label class="field"><div class="field-label">Search</div><input id="searchInput" placeholder="Player, stat, matchup"></label>
+      <label class="field"><div class="field-label">Minimum Arb %</div><input id="minArbInput" type="number" step="0.1" value="0.5"></label>
+      <label class="field"><div class="field-label">Stake Calculator</div><input id="stakeInput" type="number" step="1" value="100"></label>
+      <label class="field"><div class="field-label">Auto Refresh</div><div class="fake-select">30 seconds</div></label>
+      <div class="field"><div class="field-label">Books</div><div class="book-pills" id="bookPills"></div></div>
+    </section>
+
+    <section class="main">
+      <section class="card">
+        <div class="section-head">
+          <div><h2 id="boardTitle">Live Arb Board</h2><p id="boardSub">Top to bottom ranked live arbs from your Render backend.</p></div>
+          <button class="btn btn-secondary" style="padding:10px 14px" id="exportBtn">Export CSV</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Rank</th><th>Player</th><th>Stat</th><th>Line</th><th>Books</th><th>Arb %</th></tr>
+            </thead>
+            <tbody id="boardBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="card pad">
+          <div class="selected-top">
+            <div>
+              <div class="smallcaps">Selected opportunity</div>
+              <h3 id="selectedPlayer" style="font-size:30px;margin:10px 0 0">No selection</h3>
+              <div id="selectedMeta" class="footer-note"></div>
+              <div id="selectedStart" class="muted tiny" style="margin-top:6px"></div>
+            </div>
+            <div class="selected-edge"><div class="smallcaps" style="color:#9dedd2">Edge</div><div class="big" id="selectedEdge">0.00%</div></div>
+          </div>
+          <div class="legs">
+            <div class="leg"><div class="smallcaps" id="overTitle">Over</div><div class="leg-odds" id="overOdds">-</div><div class="footer-note" id="overBook">-</div><div class="footer-note" id="overStakeText">Stake: $0.00</div><button class="btn btn-secondary open-link" id="overLinkBtn">Open Over Link</button></div>
+            <div class="leg"><div class="smallcaps" id="underTitle">Under</div><div class="leg-odds" id="underOdds">-</div><div class="footer-note" id="underBook">-</div><div class="footer-note" id="underStakeText">Stake: $0.00</div><button class="btn btn-secondary open-link" id="underLinkBtn">Open Under Link</button></div>
+          </div>
+        </section>
+
+        <section class="card pad">
+          <div class="section-head" style="padding:0 0 8px;border:none"><div><h3>Wager / Payout Calculator</h3><p>Uses the exact live row you click in the table.</p></div></div>
+          <div class="calc-grid">
+            <div class="calc"><div class="smallcaps">Total Stake</div><div class="calc-value" id="calcStake">$0.00</div></div>
+            <div class="calc"><div class="smallcaps">Implied Probability</div><div class="calc-value" id="calcImplied">0.00%</div></div>
+            <div class="calc"><div class="smallcaps">Over Stake</div><div class="calc-value" id="calcOverStake">$0.00</div></div>
+            <div class="calc"><div class="smallcaps">Under Stake</div><div class="calc-value" id="calcUnderStake">$0.00</div></div>
+            <div class="calc"><div class="smallcaps">Guaranteed Payout</div><div class="calc-value" id="calcPayout">$0.00</div></div>
+            <div class="calc highlight"><div class="smallcaps">Guaranteed Profit</div><div class="calc-value" id="calcProfit">$0.00</div></div>
+          </div>
+        </section>
+
+        <section class="card pad">
+          <div class="section-head" style="padding:0 0 8px;border:none"><div><h3>Notes</h3></div></div>
+          <div class="info"><div style="font-weight:700">Backend required</div><div class="footer-note">This page now points to your public Render backend, not localhost.</div></div>
+          <div class="info" style="margin-top:12px"><div style="font-weight:700">Render free tier</div><div class="footer-note">The first request can be slow if the instance has spun down.</div></div>
+          <div class="info" style="margin-top:12px"><div style="font-weight:700">Next step</div><div class="footer-note">Once this is live on GitHub Pages, the next upgrade should be a Middles tab and cleaner player names.</div></div>
+        </section>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    const tabs = ["Arb Board","Middle Finder","Parlay Builder","Live Tracker"];
+    const bookOptions = ["Fanduel","Draftkings","Betmgm","Caesars"];
+    const API_URL = "https://betjams.onrender.com/arbs";
+    let selectedBooks = [...bookOptions];
+    let activeTab = "Arb Board";
+    let selectedId = null;
+    let rows = [];
+    const el = id => document.getElementById(id);
+
+    function setStatus(text){ el("statusBox").textContent = text; }
+    function toDecimal(american){ const n = Number(american); if (Number.isNaN(n)) return 0; return n > 0 ? 1 + (n / 100) : 1 + (100 / Math.abs(n)); }
+    function calcStake(total, overAmerican, underAmerican){
+      const d1 = toDecimal(overAmerican), d2 = toDecimal(underAmerican);
+      if (!d1 || !d2) return { implied:0, stake1:0, stake2:0, payout:0, profit:0, arbPct:0 };
+      const implied = 1 / d1 + 1 / d2;
+      const s1 = (total / d1) / implied, s2 = (total / d2) / implied;
+      const payout = Math.min(s1 * d1, s2 * d2), profit = payout - total, arbPct = ((1 / implied) - 1) * 100;
+      return { implied, stake1:s1, stake2:s2, payout, profit, arbPct };
+    }
+    function normalizeRow(item, index){
+      const overOdds = Number(item.over_odds ?? item.overOdds ?? 0);
+      const underOdds = Number(item.under_odds ?? item.underOdds ?? 0);
+      const line = item.line ?? item.over_line ?? item.under_line ?? "-";
+      return {
+        id: item.id ?? index + 1,
+        player: item.player ?? "Unknown",
+        stat: item.stat ?? "Unknown",
+        matchup: item.matchup ?? "Matchup unavailable",
+        start: item.start ?? item.starts_at ?? "Start time unavailable",
+        line,
+        over_odds: overOdds,
+        under_odds: underOdds,
+        over_book: item.over_book ?? item.overBook ?? "Book A",
+        under_book: item.under_book ?? item.underBook ?? "Book B",
+        over_link: item.over_link ?? item.overLink ?? "#",
+        under_link: item.under_link ?? item.underLink ?? "#",
+        arb_pct: Number(item.arb_pct ?? item.arbPct ?? 0)
+      };
+    }
+    function selectedBooksLower(){ return selectedBooks.map(b => b.toLowerCase()); }
+    async function loadData(){
+      try{
+        setStatus("Loading live data from Render backend...");
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error("Backend returned " + res.status);
+        const data = await res.json();
+        rows = Array.isArray(data) ? data.map(normalizeRow) : [];
+        if (rows.length && !rows.some(r => r.id === selectedId)) selectedId = rows[0].id;
+        setStatus(rows.length ? "Live data loaded successfully. Auto refresh every 30 seconds." : "Backend is live. No qualifying arbs found right now.");
+        render();
+      }catch(err){
+        rows = [];
+        setStatus("Failed to fetch live data from Render. Try Refresh Now after a few seconds if the free instance is waking up.");
+        render();
+      }
+    }
+    function renderTabs(){
+      const wrap = el("tabs"); wrap.innerHTML = "";
+      tabs.forEach(tab => {
+        const btn = document.createElement("button");
+        btn.className = "tab" + (tab === activeTab ? " active" : "");
+        btn.textContent = tab;
+        btn.onclick = () => { activeTab = tab; render(); };
+        wrap.appendChild(btn);
+      });
+    }
+    function renderBooks(){
+      const wrap = el("bookPills"); wrap.innerHTML = "";
+      bookOptions.forEach(book => {
+        const btn = document.createElement("button");
+        btn.className = "pill" + (selectedBooks.includes(book) ? " active" : "");
+        btn.textContent = book;
+        btn.onclick = () => { selectedBooks = selectedBooks.includes(book) ? selectedBooks.filter(b => b !== book) : [...selectedBooks, book]; render(); };
+        wrap.appendChild(btn);
+      });
+    }
+    function filteredRows(){
+      const q = el("searchInput").value.trim().toLowerCase();
+      const minArb = Number(el("minArbInput").value || 0);
+      const booksLower = selectedBooksLower();
+      return rows
+        .filter(r =>
+          booksLower.includes((r.over_book || "").toLowerCase()) ||
+          booksLower.includes((r.under_book || "").toLowerCase())
+        )
+        .filter(r => r.arb_pct >= minArb)
+        .filter(r => !q || [r.player, r.stat, r.matchup].join(" ").toLowerCase().includes(q))
+        .sort((a,b) => b.arb_pct - a.arb_pct);
+    }
+    function renderMetrics(list){
+      el("metricCount").textContent = String(list.length);
+      el("metricTop").textContent = list[0] ? list[0].arb_pct.toFixed(2) + "%" : "0.00%";
+      el("metricTopSub").textContent = list[0] ? list[0].player : "No active result";
+      const avg = list.length ? list.reduce((sum, r) => sum + r.arb_pct, 0) / list.length : 0;
+      el("metricAvg").textContent = avg.toFixed(2) + "%";
+    }
+    function renderBoard(list){
+      el("boardTitle").textContent = activeTab === "Arb Board" ? "Live Arb Board" : activeTab + " Mockup";
+      el("boardSub").textContent = activeTab === "Arb Board" ? "Top to bottom ranked live arbs from your Render backend." : "This tab is still visual-only for now.";
+      const body = el("boardBody"); body.innerHTML = "";
+      list.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        if (row.id === selectedId) tr.classList.add("active");
+        tr.innerHTML = `<td>#${idx + 1}</td><td><div style="font-weight:700">${row.player}</div><div class="tiny muted" style="margin-top:4px">${row.matchup}</div></td><td>${row.stat}</td><td>${row.line}</td><td><div class="tiny">O: ${row.over_book}</div><div class="tiny muted" style="margin-top:4px">U: ${row.under_book}</div></td><td><span class="edge">${row.arb_pct.toFixed(2)}%</span></td>`;
+        tr.onclick = () => { selectedId = row.id; render(); };
+        body.appendChild(tr);
+      });
+    }
+    function renderSelected(list){
+      const row = list.find(r => r.id === selectedId) || list[0];
+      if (!row) {
+        el("selectedPlayer").textContent = "No live rows";
+        el("selectedMeta").textContent = "";
+        el("selectedStart").textContent = "";
+        el("selectedEdge").textContent = "0.00%";
+        el("overBook").textContent = "-";
+        el("underBook").textContent = "-";
+        return;
+      }
+      const stake = Number(el("stakeInput").value || 0);
+      const calc = calcStake(stake, row.over_odds, row.under_odds);
+      el("selectedPlayer").textContent = row.player;
+      el("selectedMeta").textContent = `${row.stat} • ${row.matchup}`;
+      el("selectedStart").textContent = row.start;
+      el("selectedEdge").textContent = calc.arbPct.toFixed(2) + "%";
+      el("overTitle").textContent = "Over " + row.line;
+      el("underTitle").textContent = "Under " + row.line;
+      el("overOdds").textContent = (row.over_odds > 0 ? "+" : "") + row.over_odds;
+      el("underOdds").textContent = (row.under_odds > 0 ? "+" : "") + row.under_odds;
+      el("overBook").textContent = row.over_book;
+      el("underBook").textContent = row.under_book;
+      el("overStakeText").textContent = "Stake: $" + calc.stake1.toFixed(2);
+      el("underStakeText").textContent = "Stake: $" + calc.stake2.toFixed(2);
+      el("calcStake").textContent = "$" + stake.toFixed(2);
+      el("calcImplied").textContent = (calc.implied * 100).toFixed(2) + "%";
+      el("calcOverStake").textContent = "$" + calc.stake1.toFixed(2);
+      el("calcUnderStake").textContent = "$" + calc.stake2.toFixed(2);
+      el("calcPayout").textContent = "$" + calc.payout.toFixed(2);
+      el("calcProfit").textContent = "$" + calc.profit.toFixed(2);
+      el("overLinkBtn").onclick = () => window.open(row.over_link || "#", "_blank");
+      el("underLinkBtn").onclick = () => window.open(row.under_link || "#", "_blank");
+    }
+    function exportCsv(){
+      const list = filteredRows();
+      const lines = [["player","stat","line","over_book","over_odds","under_book","under_odds","arb_pct"].join(",")];
+      list.forEach(r => lines.push([`"${r.player}"`,`"${r.stat}"`,`"${r.line}"`,`"${r.over_book}"`,r.over_odds,`"${r.under_book}"`,r.under_odds,r.arb_pct.toFixed(2)].join(",")));
+      const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "betjams_arbs.csv"; a.click(); URL.revokeObjectURL(url);
+    }
+    function render(){ renderTabs(); renderBooks(); const list = filteredRows(); renderMetrics(list); renderBoard(list); renderSelected(list); }
+    ["searchInput","minArbInput","stakeInput"].forEach(id => el(id).addEventListener("input", render));
+    el("refreshBtn").addEventListener("click", loadData);
+    el("exportBtn").addEventListener("click", exportCsv);
+    el("backendBtn").addEventListener("click", () => window.open(API_URL, "_blank"));
+    render(); loadData(); setInterval(loadData, 30000);
+  </script>
+</body>
+</html>
